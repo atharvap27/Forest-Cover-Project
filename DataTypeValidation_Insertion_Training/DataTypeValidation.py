@@ -1,10 +1,10 @@
-import sqlite3 as sql
-from app_logger.App_Logger import App_logger
-import os
-from datetime import datetime
-import csv
 import shutil
+import sqlite3 as sql
+from datetime import datetime
 from os import listdir
+import os
+import csv
+from app_logger.App_Logger import App_logger
 
 class DataBaseConnection():
     def __init__(self):
@@ -73,15 +73,56 @@ class DataBaseConnection():
         badfilePath=self.badFilePath
         files_in_gooddata=[f for f in listdir(goodfilePath)]
         log_file=open('Training_logs/InsertDBlog.txt','a+')
+        count=1
+        for file in files_in_gooddata:
+         try:
+             with open('TrainingSet_Rawfiles_after_validation/GoodData','a+') as f:
+                 reader=csv.reader(f,delimiter='\n')
+                 for line in enumerate(reader):
+                     for list_ in (line[1]):
+                         try:
+                             conn.execute('INSERT INTO Good_Raw_Data VALUES ({values})'.format(values=(list_)))
+                             self.logger.log(log_file,'%s File succesfully inserted in %s'%file%database)
+                             conn.commit()
+                             print('row:%s'%count)
+                             count+=1
+                         except Exception as e:
+                             raise e
+         except Exception as e:
+             conn.rollback()
+             self.logger.log(log_file,'Error in creating table :%s'%e)
+             shutil.move(goodfilePath+'/'+ file,badfilePath)
+             self.logger.log(log_file,' %s file moved to BadData successfully'%file)
+             log_file.close()
+             conn.close()
+         conn.close()
+         log_file.close()
+
+    def selectingDatafromTableinDatabasetoCSV(self,database):
+        self.filefromDB='TrainingFile_from_db'
+        self.db_file='db_input_file'
+        log_file=open('Training_logs/csvDatafromDb.txt','a+')
         try:
-            for file in files_in_gooddata:
-                with open('TrainingSet_Rawfiles_after_validation/GoodData','a+') as f:
-                    csv=csv.reader(f,delimiter='\n')
-                    for line in enumerate(csv):
-                        for list_ in (line[1]):
-                            try:
-                                conn.execute('INSERT INTO Good_Raw_Data VALUES ({values})'.format(values=(list_)))
-                                self.logger.log()
+            conn=self.dbConnection(database)
+            sql_cmd='* SELECT * FROM Good_Raw_Data'
+            cursor=conn.cursor()
+            cursor.execute(sql_cmd)
+            result=cursor.fetchall()
+            column_names=[i[0] for i in cursor.description]
+            if not os.path.isdir(self.filefromDB):
+                os.makedirs(self.filefromDB)
+            csv_fromdb=csv.writer(open(self.filefromDB +'/'+self.db_file),delimiter=',', lineterminator='\r\n',quoting=csv.QUOTE_ALL, escapechar='\\')
+            csv_fromdb.writerow(column_names)
+            csv_fromdb.writerows(result)
+            self.logger.log(log_file,'File exported successfully')
+            log_file.close()
+
+        except Exception as e:
+            self.logger.log(log_file,'file exporting failed!!:%s'%e)
+            log_file.close()
+
+
+
 
 
 
