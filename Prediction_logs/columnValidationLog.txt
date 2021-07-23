@@ -1,0 +1,24 @@
+2021-07-21/18:09:08		Column length validation has started
+2021-07-21/18:09:08		Column Length validation successful!!
+2021-07-21/18:09:25		Column length validation has started
+2021-07-21/18:09:25		Column Length validation successful!!
+2021-07-22/18:30:09		Column length validation has started
+2021-07-22/18:30:09		Column Length validation successful!!
+2021-07-22/18:31:13		Column length validation has started
+2021-07-22/18:31:13		Column Length validation successful!!
+2021-07-22/18:35:14		Column length validation has started
+2021-07-22/18:35:14		Column Length validation successful!!
+2021-07-22/18:41:47		Column length validation has started
+2021-07-22/18:41:47		Column Length validation successful!!
+2021-07-22/19:15:09		Column length validation has started
+2021-07-22/19:15:09		Column Length validation successful!!
+2021-07-22/20:43:40		Column length validation has started
+2021-07-22/20:43:40		Column Length validation successful!!
+2021-07-22/20:54:20		Column length validation has started
+2021-07-22/20:54:20		Column Length validation successful!!
+2021-07-22/20:58:02		Column length validation has started
+2021-07-22/20:58:02		Column Length validation successful!!
+2021-07-23/16:42:05		Column length validation has started
+2021-07-23/16:42:05		Column Length validation successful!!
+2021-07-23/18:30:36		Column length validation has started
+2021-07-23/18:30:36		Column Length validation successful!!
