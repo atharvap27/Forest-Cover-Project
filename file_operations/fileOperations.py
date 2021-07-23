@@ -7,6 +7,7 @@ class File_Oerations:
         self.file_object = file_object
         self.logger_object = logger_object
         self.model_directory_path = 'models/'
+        self.model_name=None
 
     def save_model(self,model,file_name):
         self.logger_object.log(self.file_object,"The process of save model in class File_operations has been started")
@@ -39,16 +40,20 @@ class File_Oerations:
             raise Exception()
 
     def find_correct_model_file(self,cluster_number):
+        self.logger_object.log(self.file_object, 'Entered the find_correct_model_file method of the File_Operation class')
         try:
-            self.cluster_ind = cluster_number
-            self.folder_path = self.model_directory_path
+            self.cluster_number = cluster_number
+            self.folder_name = self.model_directory_path
             self.list_of_model_files=[]
-            self.list_of_files_in_folder = os.listdir(self.folder_path)
-            for self.file in self.list_of_files_in_folder:
+            self.list_of_files = os.listdir(self.folder_name)
+            for self.file in self.list_of_files:
+
                 try:
-                    if (self.file.index(str(self.cluster_ind))!=-1):
+
+                    if (self.file.index(str(self.cluster_number))!=-1):
                         self.model_name = self.file
-                except:continue
+                except:
+                    continue
             self.model_name = self.model_name.split('.')[0]
             self.logger_object.log(self.file_object,'Exited the find_correct_model_file method of class File_Operations')
             return self.model_name
